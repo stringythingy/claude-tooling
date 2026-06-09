@@ -37,18 +37,22 @@ Stop/no-op and comment with the blocking reason when the fix requires human judg
 
 ## Repair categories
 
+For this repository, only the safe auto-fix categories below may be fixed and pushed automatically.
+
+Any high-risk category requires stop/no-op with a concise human handoff comment describing evidence, blocker, and next decision needed.
+
 | Category                                                                                                | Posture                                                                                            |
 | ------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| Formatting, lint, typecheck, snapshots, generated fixtures, and lockfile drift                          | Fix and push.                                                                                      |
-| Failing unit/integration tests where PR intent or documented behavior makes the expected behavior clear | Fix implementation or update tests, then push.                                                     |
-| E2E failures with clear evidence from traces, logs, repo behavior, or changed stable selectors          | Fix app code or tests, then push.                                                                  |
-| CI/workflow syntax errors introduced by the PR                                                          | Fix and push.                                                                                      |
-| Simple generated/schema migrations needed by a clear schema/model change                                | Generate or add them and push when the devbox has the required tooling and permissions.            |
-| Flaky checks with strong flake evidence                                                                 | Rerun once when no repo change is needed, or push the narrowest stabilizing fix when one is clear. |
-| Ambiguous product intent, conflicting requirements, or unclear PR direction                             | Stop/no-op; comment if human action is needed.                                                     |
-| Secrets, provider config, CI project settings, or external service failures outside the repo            | Stop/no-op; comment if human action is needed.                                                     |
-| Dependency replacement or vulnerability/security choices                                                | Stop/no-op; comment if human action is needed.                                                     |
-| Production data migrations, backfills, or data-shape decisions                                          | Stop/no-op; comment if human action is needed.                                                     |
+| Formatting, lint, typecheck, snapshots, generated fixtures, and lockfile drift                          | Safe auto-fix: fix and push.                                                                       |
+| Failing unit/integration tests where PR intent or documented behavior makes the expected behavior clear | Safe auto-fix: fix implementation or update tests, then push.                                      |
+| E2E failures with clear evidence from traces, logs, repo behavior, or changed stable selectors          | Safe auto-fix: fix app code or tests, then push.                                                   |
+| CI/workflow syntax errors introduced by the PR                                                          | Safe auto-fix: fix and push.                                                                       |
+| Simple generated/schema migrations needed by a clear schema/model change                                | Safe auto-fix: generate or add them and push when the devbox has required tooling and permissions. |
+| Flaky checks with strong flake evidence                                                                 | Safe auto-fix: rerun once when no repo change is needed, or push the narrowest stabilizing fix.    |
+| Ambiguous product intent, conflicting requirements, or unclear PR direction                             | High-risk: stop/no-op and hand off to humans.                                                      |
+| Secrets, provider config, CI project settings, or external service failures outside the repo            | High-risk: stop/no-op and hand off to humans.                                                      |
+| Dependency replacement or vulnerability/security choices                                                | High-risk: stop/no-op and hand off to humans.                                                      |
+| Production data migrations, backfills, or data-shape decisions                                          | High-risk: stop/no-op and hand off to humans.                                                      |
 
 ## Branch and concurrency safety
 

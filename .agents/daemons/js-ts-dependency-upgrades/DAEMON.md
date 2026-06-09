@@ -21,19 +21,29 @@ schedule: '0 8 * * 1'
 
 Use these repository-specific values:
 
-- Package manager: `<package-manager>`
-- Dependency manifests: `<manifest-globs>`
-- Lockfile: `<lockfile-path>`
-- Outdated scan: `<outdated-command>`
-- Runtime dependency update: `<runtime-update-command>`
-- Development dependency update: `<development-update-command>`
-- Install or lockfile refresh: `<install-command>`
+- Package manager: `npm`
+- Dependency manifests:
+  - `ide_plugins/agent-manager/package.json`
+  - `ide_plugins/claude-control/package.json`
+  - `ide_plugins/claude-control/webview-ui/package.json`
+- Lockfiles:
+  - `ide_plugins/agent-manager/package-lock.json`
+  - `ide_plugins/claude-control/package-lock.json`
+  - `ide_plugins/claude-control/webview-ui/package-lock.json`
+- Outdated scan: `for d in ide_plugins/agent-manager ide_plugins/claude-control ide_plugins/claude-control/webview-ui; do (cd "$d" && npm outdated || true); done`
+- Runtime dependency update: `for d in ide_plugins/agent-manager ide_plugins/claude-control ide_plugins/claude-control/webview-ui; do (cd "$d" && npm update --omit=dev); done`
+- Development dependency update: `for d in ide_plugins/agent-manager ide_plugins/claude-control ide_plugins/claude-control/webview-ui; do (cd "$d" && npm update --include=dev); done`
+- Install or lockfile refresh: `for d in ide_plugins/agent-manager ide_plugins/claude-control ide_plugins/claude-control/webview-ui; do (cd "$d" && npm install --package-lock-only); done`
 - Verification:
-  - `<verification-command>`
-- Runtime dependency branch: `daemon/deps-runtime-minor-patch`
-- Development dependency branch: `daemon/deps-dev-minor-patch`
-- Runtime dependency title: `deps: update runtime dependencies`
-- Development dependency title: `deps(dev): update development dependencies`
+  - `npm run lint --prefix ide_plugins/agent-manager`
+  - `npm run compile --prefix ide_plugins/agent-manager`
+  - `npm run test --prefix ide_plugins/claude-control`
+  - `npm run build --prefix ide_plugins/claude-control`
+- Runtime dependency branch: `charlie/deps-runtime-minor-patch`
+- Development dependency branch: `charlie/deps-dev-minor-patch`
+- Runtime dependency title: `chore(deps): update runtime npm dependencies`
+- Development dependency title: `chore(deps-dev): update development npm dependencies`
+- PR labels: none by default for this repository; do not auto-apply labels unless a human asks for them.
 
 ## Update policy
 
@@ -56,6 +66,8 @@ Create or update at most two pull requests per run:
 2. development dependency patch/minor updates
 
 Use the configured branch and title for each dependency bucket.
+
+Leave labels empty by default unless a maintainer explicitly requests labels on the dependency PR.
 
 Each PR body must include:
 

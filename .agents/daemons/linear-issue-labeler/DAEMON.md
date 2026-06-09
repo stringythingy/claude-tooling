@@ -7,7 +7,7 @@ routines:
   - Add unambiguous missing labels or post one compact repair proposal when labels conflict.
 deny:
   - Do not apply deprecated labels.
-  - Do not remove or replace existing labels unless the taxonomy explicitly allows that exact repair.
+  - Do not remove or replace existing labels automatically; use repair proposals only.
   - Do not change issue status, priority, assignee, project, cycle, estimate, due date, or body.
   - Do not guess between two plausible labels in the same required label family.
   - Do not repeat the same repair proposal for an unchanged conflict.
@@ -37,6 +37,7 @@ Do not scan the entire workspace unless the daemon file is intentionally updated
 Add a missing label when:
 
 - the label family is required by the taxonomy
+- the label family is one of the auto-add families allowed for this repository (`type/*` and `area/*`)
 - exactly one label in that family is supported by issue evidence
 - the label is current, not deprecated
 - applying it does not conflict with existing labels
@@ -59,6 +60,12 @@ Recommended labels: <labels>
 Reason: <short rationale>
 Blocked because: <specific uncertainty or conflict>
 ```
+
+## Auto-add and removal policy for this repository
+
+- Auto-add is allowed only for `type/*` and `area/*` labels when confidence is high.
+- `source/*`, `priority/*`, and `status/*` labels are propose-only; do not auto-add them.
+- Conservative removal policy is always enabled: no automatic label removals or replacements.
 
 ## Limits
 

@@ -20,7 +20,7 @@ schedule: "0 15 * * 1-5"
 
 Use this repository-specific value:
 
-- Slack channel: `<slack_channel_name>`
+- Slack channel: `#general`
 
 ## Scope
 
@@ -57,6 +57,16 @@ If fewer than two meaningful items exist, do not post unless the single item is 
 If no item meets the signal threshold, no-op silently.
 
 No-op silently when there has been no repository activity since the previous scheduled run.
+
+## Duplicate-post detection strategy
+
+Use a date-keyed digest identity:
+
+- `github-activity-digest:stringythingy/claude-tooling:YYYY-MM-DD` (UTC date)
+
+Before posting, check `#general` for a digest message carrying that exact UTC-day identity.
+
+If an identical UTC-day digest identity already exists, no-op silently and do not post a second digest for that day.
 
 ## Output format
 
